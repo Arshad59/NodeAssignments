@@ -1,0 +1,11 @@
+Assignment :
+Create an api for shortning of url
+1. add short url to database  and return its id of short url 
+2. basis id show all details to the url to user
+id
+original url
+short url 
+3  show details all the urls to user
+4  update url 
+5 remove url details 
+Follow all mvc architecture
