@@ -75,8 +75,11 @@ exports.getUrlById = async (req, res) => {
 
 exports.updateUrl = async (req, res) => {
     try {
-        const { original_url } = req.body;
-        const data = { url: original_url }
+        const existingUrl = await urlModel.findOne({ _id: req.params.id });
+        if (!existingUrl) {
+            return res.status(404).json({ error: 'URL not found' });
+        }
+        const data = { url: existingUrl.original_url }
         const response = await axios.post("https://spoo.me/", data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -87,13 +90,15 @@ exports.updateUrl = async (req, res) => {
         const shortened_url = response.data.short_url;
         const url = await urlModel.findOneAndUpdate(
             { _id: req.params.id },
-            { original_url: original_url, short_url: shortened_url },
+            { original_url: existingUrl.original_url, short_url: shortened_url },
             { new: true }
         );
 
         if (!url) return res.status(404).json({ error: 'URL not found' });
         res.json({ message: 'URL updated', url });
+
     } catch (error) {
+        console.log(error.message)
         res.status(500).json({ error: 'Server Error' });
     }
 };
