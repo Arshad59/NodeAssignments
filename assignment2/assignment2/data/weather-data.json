@@ -1,0 +1,82 @@
+[
+  {
+    "city": "Delhi",
+    "temperature": 30,
+    "humidity": 70,
+    "windSpeed": 10,
+    "condition": "Clear",
+    "rain": false
+  },
+  {
+    "city": "Mumbai",
+    "temperature": 28,
+    "humidity": 85,
+    "windSpeed": 8,
+    "condition": "Cloudy",
+    "rain": false
+  },
+  {
+    "city": "Agra",
+    "temperature": 32,
+    "humidity": 65,
+    "windSpeed": 12,
+    "condition": "Sunny",
+    "rain": true
+  },
+  {
+    "city": "Chennai",
+    "temperature": 34,
+    "humidity": 75,
+    "windSpeed": 15,
+    "condition": "Rainy",
+    "rain": true
+  },
+  {
+    "city": "Bangalore",
+    "temperature": 26,
+    "humidity": 80,
+    "windSpeed": 10,
+    "condition": "Cloudy",
+    "rain": false
+  },
+  {
+    "city": "Kolkata",
+    "temperature": 31,
+    "humidity": 90,
+    "windSpeed": 7,
+    "condition": "Rainy",
+    "rain": true
+  },
+  {
+    "city": "Hyderabad",
+    "temperature": 29,
+    "humidity": 60,
+    "windSpeed": 14,
+    "condition": "Clear",
+    "rain": false
+  },
+  {
+    "city": "Pune",
+    "temperature": 27,
+    "humidity": 65,
+    "windSpeed": 10,
+    "condition": "Sunny",
+    "rain": false
+  },
+  {
+    "city": "Jaipur",
+    "temperature": 35,
+    "humidity": 55,
+    "windSpeed": 12,
+    "condition": "Clear",
+    "rain": false
+  },
+  {
+    "city": "Ahmedabad",
+    "temperature": 33,
+    "humidity": 60,
+    "windSpeed": 8,
+    "condition": "Sunny",
+    "rain": false
+  }
+]
