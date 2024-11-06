@@ -1,8 +1,9 @@
 const urlModel = require("../models/urlModel");
 
-const axios = require("axios")
+const axios = require("axios");
+const ApiError = require("../utils/ApiError");
 
-exports.createShortUrl = async (req, res) => {
+exports.createShortUrl = async (req, res, next) => {
     try {
         const { original_url } = req.body;
         let url = await urlModel.findOne({ original_url });
@@ -37,14 +38,15 @@ exports.createShortUrl = async (req, res) => {
             }
         });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            error: 'An error occurred while creating the shortened URL',
-        });
+        // console.error(error);
+        // res.status(500).json({
+        //     error: 'An error occurred while creating the shortened URL',
+        // });
+        next(new ApiError(500, "An error occured while creating the shortened URL"))
     }
 }
 
-exports.getAllUrls = async (req, res) => {
+exports.getAllUrls = async (req, res, next) => {
     try {
         const urls = await urlModel.find();
         res.json(urls.map(url => ({
@@ -53,15 +55,15 @@ exports.getAllUrls = async (req, res) => {
             shortUrl: url.short_url,
         })));
     } catch (error) {
-        res.status(500).json({ error: 'Server Error' });
+        next(new ApiError(500, "Server Error"))
     }
 };
 
-exports.getUrlById = async (req, res) => {
+exports.getUrlById = async (req, res, next) => {
     try {
         const url = await urlModel.findOne({ _id: req.params.id })
         if (!url) {
-            return res.status(404).json({ error: 'URL not found' });
+            next(new ApiError(400, `URL with id :${req.params.id} not found`))
         }
         res.json({
             id: url._id,
@@ -69,15 +71,17 @@ exports.getUrlById = async (req, res) => {
             shortUrl: url.short_url,
         });
     } catch (error) {
-        res.status(404).json * { error: "Server error" }
+        // res.status(404).json * { error: "Server error" }
+        next(new ApiError(404, `URL with id:${req.params.id} not found`))
     }
 }
 
-exports.updateUrl = async (req, res) => {
+exports.updateUrl = async (req, res, next) => {
     try {
         const existingUrl = await urlModel.findOne({ _id: req.params.id });
         if (!existingUrl) {
-            return res.status(404).json({ error: 'URL not found' });
+            // return res.status(404).json({ error: 'URL not found' });
+            next(new ApiError(404, `URL with id:${req.params.id} not found`))
         }
         const data = { url: existingUrl.original_url }
         const response = await axios.post("https://spoo.me/", data, {
@@ -94,21 +98,29 @@ exports.updateUrl = async (req, res) => {
             { new: true }
         );
 
-        if (!url) return res.status(404).json({ error: 'URL not found' });
+        if (!url) {
+            // res.status(404).json({ error: 'URL not found' });
+            next(new ApiError(404, `URL not found`))
+        }
         res.json({ message: 'URL updated', url });
 
     } catch (error) {
         console.log(error.message)
-        res.status(500).json({ error: 'Server Error' });
+        // res.status(500).json({ error: 'Server Error' });
+        next(new ApiError(500, "An error occured while fetching the URL"))
     }
 };
 
-exports.deleteUrl = async (req, res) => {
+exports.deleteUrl = async (req, res, next) => {
     try {
         const url = await urlModel.findOneAndDelete({ _id: req.params.id });
-        if (!url) return res.status(404).json({ error: 'URL not found' });
+        if (!url) {
+            //  res.status(404).json({ error: 'URL not found' });
+            next(new ApiError(404, "An error occured while fetching the URL"))
+        }
         res.json({ message: 'URL deleted' });
     } catch (error) {
-        res.status(500).json({ error: 'Server Error' });
+        // res.status(500).json({ error: 'Server Error' });
+        next(new ApiError(500, "An error occured while fetching the URL"))
     }
 }
