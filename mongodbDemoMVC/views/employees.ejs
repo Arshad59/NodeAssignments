@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Portal</title>
+</head>
+
+<body>
+    <%- include('partials/header') %>
+        <h1> Employees Details </h1>
+        <table border="1">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email </th>
+                <th>Car Model</th>
+                <th>Update </th>
+                <th>Delete </th>
+            </tr>
+            <% allemployeesDetails.forEach(emp=> { %>
+                <tr>
+                    <td>
+                        <%= emp.first_name %>
+                    </td>
+                    <td>
+                        <%= emp.last_name %>
+                    </td>
+                    <td>
+                        <%= emp.email %>
+                    </td>
+                    <td>
+                        <%= emp.car_model %>
+                    </td>
+                    <td><a href="#"
+                            onclick="openModal('<%= emp._id %>', '<%= emp.first_name %>', '<%= emp.last_name %>', '<%= emp.email %>', '<%=emp.car_model%>')">Update</a>
+                    </td>
+                    <td><a href="http://localhost:8000/web/employees/delete?eid=<%=emp._id %>"> Delete </a></td>
+                </tr>
+                <% }); %>
+        </table>
+
+        <%- include("partials/update") %>
+
+            <%- include("partials/footer") %>
+</body>
+
+
+</html>
